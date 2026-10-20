@@ -1,0 +1,899 @@
+/* ==========================================================================
+   20/10 VIETNAMESE WOMEN'S DAY - RECIPIENT PUBLIC SITE
+   Vanilla CSS with Responsive Mobile-First Design & Micro-animations
+   ========================================================================== */
+
+:root {
+  --primary-pink: #ff758f;
+  --primary-dark: #c9184a;
+  --primary-deep: #800f2f;
+  --primary-light: #ffccd5;
+  --primary-soft: #fff0f3;
+  --primary-glow: rgba(255, 117, 143, 0.4);
+
+  --accent-yellow: #ffd166;
+  --accent-mint: #bbf7d0;
+  --accent-lavender: #e9d5ff;
+  --leaf-green: #70a040;
+
+  --text-primary: #4a1525;
+  --text-secondary: #7e3850;
+  --text-light: #ab6880;
+
+  --bg-gradient: linear-gradient(135deg, #fff0f3 0%, #ffe5ec 30%, #ffccd5 70%, #ffb3c6 100%);
+  --card-bg: rgba(255, 255, 255, 0.94);
+  --card-border: 2px solid rgba(255, 182, 193, 0.65);
+  --card-shadow: 0 16px 40px rgba(255, 117, 143, 0.22), 0 4px 12px rgba(201, 24, 74, 0.08);
+
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 28px;
+  --radius-full: 999px;
+
+  --transition-fast: 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  --transition-bounce: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Reset & Box Sizing */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  min-height: 100dvh;
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text-primary);
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Canvas Confetti */
+#confetti-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* Floating background particles */
+.bg-decorations {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.bg-bubble {
+  position: absolute;
+  font-size: 1.5rem;
+  opacity: 0.45;
+  animation: floatUpward linear infinite;
+  user-select: none;
+}
+
+@keyframes floatUpward {
+  0% {
+    transform: translateY(105vh) rotate(0deg) scale(0.8);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.6;
+  }
+  80% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-10vh) rotate(360deg) scale(1.1);
+    opacity: 0;
+  }
+}
+
+/* Audio Toggle Floating Button */
+.sound-toggle-btn {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid var(--primary-light);
+  box-shadow: 0 4px 12px rgba(255, 117, 143, 0.25);
+  cursor: pointer;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  transition: transform var(--transition-fast), background var(--transition-fast);
+}
+
+.sound-toggle-btn:hover {
+  transform: scale(1.1);
+  background: #ffffff;
+}
+
+.sound-toggle-btn:active {
+  transform: scale(0.95);
+}
+
+/* App Main Container */
+.app-container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 580px;
+  margin: 0 auto;
+  min-height: 100dvh;
+  padding: 24px 16px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* View Sections State Management */
+.view-section {
+  display: none;
+  width: 100%;
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+.view-section.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Cute Card Base */
+.cute-card {
+  background: var(--card-bg);
+  border: var(--card-border);
+  box-shadow: var(--card-shadow);
+  border-radius: var(--radius-lg);
+  padding: 32px 24px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   1. RECIPIENT SCREEN - SECRET GIFT BOX
+   ========================================================================== */
+.gift-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 16px 0;
+}
+
+.gift-announcement {
+  margin-bottom: 24px;
+}
+
+.sparkle-stars {
+  font-size: 1.4rem;
+  margin-bottom: 6px;
+  animation: floatGentle 2.5s ease-in-out infinite;
+}
+
+.gift-badge {
+  display: inline-block;
+  padding: 4px 16px;
+  background: #ffffff;
+  border: 1.5px solid var(--primary-light);
+  color: var(--primary-dark);
+  font-weight: 800;
+  font-size: 0.78rem;
+  border-radius: var(--radius-full);
+  margin-bottom: 10px;
+  box-shadow: 0 3px 10px rgba(255, 117, 143, 0.2);
+}
+
+.gift-for-title {
+  font-family: 'Comfortaa', cursive;
+  font-size: 1.8rem;
+  color: var(--primary-dark);
+  line-height: 1.3;
+  margin-bottom: 6px;
+}
+
+.receiver-highlight {
+  display: inline-block;
+  position: relative;
+  background: linear-gradient(135deg, #c9184a, #ff4d6d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+}
+
+.gift-prompt {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+/* Interactive Gift Box 3D Construction */
+.gift-box-interactive {
+  position: relative;
+  cursor: pointer;
+  padding: 24px 20px;
+  user-select: none;
+  outline: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.25s ease;
+}
+
+.gift-box-interactive:hover .gift-box-3d {
+  animation: giftWiggle 0.6s ease infinite;
+}
+
+.gift-box-3d {
+  position: relative;
+  width: 180px;
+  height: 160px;
+  margin-bottom: 24px;
+  animation: giftHover 3s ease-in-out infinite;
+}
+
+@keyframes giftHover {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes giftWiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-3deg); }
+  75% { transform: rotate(3deg); }
+}
+
+/* Box Body */
+.box-body {
+  position: absolute;
+  bottom: 0;
+  left: 10px;
+  width: 160px;
+  height: 110px;
+  background: linear-gradient(135deg, #ff8fab, #ff4d6d);
+  border-radius: 0 0 16px 16px;
+  box-shadow: inset 0 -6px 16px rgba(128, 15, 47, 0.25), 0 12px 24px rgba(255, 77, 109, 0.35);
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+/* Box Ribbon Cross */
+.box-ribbon-vertical {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 100%;
+  background: linear-gradient(to right, #ffd166, #ffe082, #ffd166);
+  box-shadow: 0 0 8px rgba(255, 209, 102, 0.5);
+  border-left: 1px solid rgba(255, 255, 255, 0.5);
+  border-right: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.box-ribbon-horizontal {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 100%;
+  height: 24px;
+  background: linear-gradient(to bottom, #ffd166, #ffe082, #ffd166);
+  box-shadow: 0 0 8px rgba(255, 209, 102, 0.5);
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* Box Sparkle Accents */
+.box-sparkle {
+  position: absolute;
+  font-size: 0.9rem;
+  opacity: 0.8;
+  animation: heartPulse 2s ease-in-out infinite;
+}
+.box-sparkle.s1 { top: 12px; left: 16px; }
+.box-sparkle.s2 { bottom: 12px; right: 16px; }
+.box-sparkle.s3 { top: 60px; right: 14px; }
+
+/* Gift Tag */
+.gift-tag {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: #ffffff;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  border: 1px dashed var(--primary-pink);
+  transform: rotate(-10deg);
+  z-index: 5;
+}
+
+/* Box Lid */
+.box-lid {
+  position: absolute;
+  top: 18px;
+  left: 0;
+  width: 180px;
+  height: 40px;
+  z-index: 10;
+  transform-origin: top center;
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+}
+
+.lid-rim {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 38px;
+  background: linear-gradient(135deg, #ff758f, #e63956);
+  border-radius: 12px 12px 6px 6px;
+  box-shadow: 0 6px 14px rgba(201, 24, 74, 0.35);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+.lid-ribbon-vertical {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32px;
+  height: 38px;
+  background: linear-gradient(to right, #ffd166, #ffe082, #ffd166);
+  box-shadow: 0 0 8px rgba(255, 209, 102, 0.5);
+  z-index: 12;
+}
+
+.lid-bow {
+  position: absolute;
+  top: -46px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110px;
+  height: 64px;
+  z-index: 15;
+  filter: drop-shadow(0 6px 10px rgba(201, 24, 74, 0.35));
+}
+
+.bow-svg-large {
+  width: 100%;
+  height: 100%;
+}
+
+/* Box Shadow on ground */
+.box-shadow {
+  position: absolute;
+  bottom: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150px;
+  height: 18px;
+  background: radial-gradient(ellipse at center, rgba(128, 15, 47, 0.25) 0%, rgba(128, 15, 47, 0) 70%);
+  border-radius: 50%;
+  z-index: -1;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Open Animation for Lid */
+.gift-box-3d.box-opening .box-lid {
+  transform: translateY(-80px) rotate(-35deg) scale(0.9);
+  opacity: 0;
+}
+
+.gift-box-3d.box-opening .box-shadow {
+  transform: translateX(-50%) scale(1.4);
+  opacity: 0.1;
+}
+
+/* Instruction Below Gift */
+.open-instruction {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  padding: 10px 22px;
+  border-radius: var(--radius-full);
+  border: 2px solid var(--primary-light);
+  box-shadow: 0 6px 18px rgba(255, 117, 143, 0.25);
+  font-family: 'Comfortaa', cursive;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--primary-dark);
+  animation: instructionPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes instructionPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 6px 18px rgba(255, 117, 143, 0.25);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 10px 24px rgba(255, 117, 143, 0.45);
+  }
+}
+
+.pointer-hand {
+  font-size: 1.25rem;
+  animation: bounceHand 1s ease-in-out infinite alternate;
+}
+
+@keyframes bounceHand {
+  from { transform: translateY(0); }
+  to { transform: translateY(-4px); }
+}
+
+/* Flowers flanking the gift */
+.gift-flanking-decor {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 36px;
+  margin-top: 16px;
+}
+
+.flank-flower {
+  width: 48px;
+  height: 60px;
+  opacity: 0.85;
+  transition: transform var(--transition-bounce);
+}
+
+.flank-flower:hover {
+  transform: scale(1.2) translateY(-6px);
+}
+
+.flank-left {
+  animation: flankSwayLeft 3.5s ease-in-out infinite;
+}
+
+.flank-right {
+  animation: flankSwayRight 3.5s ease-in-out infinite;
+}
+
+.flank-center {
+  width: 54px;
+  height: 54px;
+  animation: floatGentle 3s ease-in-out infinite;
+}
+
+@keyframes flankSwayLeft {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+}
+
+@keyframes flankSwayRight {
+  0%, 100% { transform: rotate(5deg); }
+  50% { transform: rotate(-5deg); }
+}
+
+.svg-tulip, .svg-daisy {
+  width: 100%;
+  height: 100%;
+}
+
+/* ==========================================================================
+   2. REVEALED CARD SCREEN
+   ========================================================================== */
+.revealed-card-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  perspective: 1000px;
+}
+
+.greeting-card {
+  width: 100%;
+  max-width: 520px;
+  text-align: center;
+  border-radius: var(--radius-lg);
+  border: 3px solid #ffccd5;
+  background: radial-gradient(circle at 50% 10%, #ffffff 0%, #fff7f9 70%, #ffedf2 100%);
+  box-shadow: 0 25px 60px rgba(201, 24, 74, 0.22), 0 8px 20px rgba(0, 0, 0, 0.04);
+  padding: 38px 26px 32px;
+  position: relative;
+  animation: cardRevealPop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes cardRevealPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.65) translateY(50px) rotate(-3deg);
+  }
+  70% {
+    transform: scale(1.03) translateY(-6px) rotate(1deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0) rotate(0deg);
+  }
+}
+
+/* Card Floral Corners */
+.card-corner {
+  position: absolute;
+  width: 58px;
+  height: 58px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.card-corner.top-left {
+  top: 8px;
+  left: 8px;
+}
+
+.card-corner.top-right {
+  top: 8px;
+  right: 8px;
+}
+
+.corner-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.flip-x {
+  transform: scaleX(-1);
+}
+
+/* Top Bow Decor */
+.card-top-bow {
+  width: 60px;
+  height: 38px;
+  margin: -10px auto 10px;
+  animation: floatGentle 3s ease-in-out infinite;
+}
+
+.card-bow-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 4px 6px rgba(255, 77, 109, 0.3));
+}
+
+/* Card Header & Title */
+.sub-header-date {
+  display: inline-block;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--primary-dark);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.card-main-heading {
+  font-family: 'Pacifico', cursive;
+  font-size: 1.85rem;
+  color: #c9184a;
+  line-height: 1.3;
+  margin-bottom: 8px;
+  text-shadow: 0 2px 5px rgba(201, 24, 74, 0.15);
+}
+
+.special-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 12px 0 18px;
+}
+
+.special-divider .line {
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(to right, transparent, var(--primary-light), transparent);
+}
+
+.divider-icon {
+  font-size: 1.15rem;
+  letter-spacing: 2px;
+}
+
+/* Recipient Banner */
+.recipient-display-banner {
+  background: linear-gradient(135deg, #fff0f3, #ffe5ec);
+  border: 1.5px solid var(--primary-light);
+  border-radius: var(--radius-md);
+  padding: 10px 18px;
+  display: inline-block;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(255, 117, 143, 0.18);
+}
+
+.dear-label {
+  font-size: 0.82rem;
+  color: var(--text-light);
+  display: block;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.card-receiver-name {
+  font-family: 'Comfortaa', cursive;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #c9184a;
+  word-break: break-word;
+}
+
+/* Wish Container */
+.wish-container {
+  position: relative;
+  background: #ffffff;
+  border: 2px dashed #ffb3c6;
+  border-radius: var(--radius-md);
+  padding: 24px 20px 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 6px 18px rgba(255, 117, 143, 0.1);
+}
+
+.quote-mark {
+  position: absolute;
+  font-family: 'Georgia', serif;
+  font-size: 2.8rem;
+  color: #ffccd5;
+  line-height: 1;
+  user-select: none;
+}
+
+.quote-open {
+  top: 4px;
+  left: 10px;
+}
+
+.quote-close {
+  bottom: -10px;
+  right: 12px;
+}
+
+.card-wish-text {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.65;
+  color: #59253e;
+  word-break: break-word;
+  position: relative;
+  z-index: 1;
+}
+
+/* Sender attribution */
+.card-sender-box {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid #ffe5ec;
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.sender-from-text {
+  font-style: italic;
+  color: var(--text-light);
+}
+
+.sender-name-text {
+  font-weight: 700;
+  color: var(--primary-dark);
+}
+
+/* Tags */
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+
+.tag {
+  background: #fff0f3;
+  color: #c9184a;
+  border: 1px solid var(--primary-light);
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+}
+
+/* Floral Bouquet Footer */
+.card-floral-footer {
+  width: 160px;
+  height: 48px;
+  margin: 0 auto 18px;
+  opacity: 0.9;
+}
+
+.floral-bouquet-svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Card Action Button (Single Prominent Button for Recipient) */
+.card-action-buttons {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.btn-card-action {
+  width: 100%;
+  max-width: 320px;
+  padding: 14px 24px;
+  border-radius: var(--radius-full);
+  font-family: 'Comfortaa', cursive, sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  background: linear-gradient(135deg, #ff758f, #ff4d6d);
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(255, 77, 109, 0.4);
+  transition: transform var(--transition-bounce), box-shadow var(--transition-fast);
+  outline: none;
+}
+
+.btn-card-action:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 12px 25px rgba(255, 77, 109, 0.5);
+}
+
+.btn-card-action:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.pulse-hover {
+  animation: pulseGlow 2.5s infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 8px 20px rgba(255, 77, 109, 0.4);
+  }
+  50% {
+    box-shadow: 0 12px 28px rgba(255, 77, 109, 0.65);
+  }
+}
+
+/* ==========================================================================
+   TOAST NOTIFICATION
+   ========================================================================== */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: rgba(89, 37, 62, 0.92);
+  color: #ffffff;
+  padding: 12px 24px;
+  border-radius: var(--radius-full);
+  font-size: 0.92rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  z-index: 2000;
+  opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+  pointer-events: none;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+.toast-icon {
+  font-size: 1.15rem;
+}
+
+/* ==========================================================================
+   COMMON ANIMATIONS
+   ========================================================================== */
+@keyframes floatGentle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes heartPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.18); }
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (Mobile First Adjustments)
+   ========================================================================== */
+@media (max-width: 480px) {
+  .app-container {
+    padding: 16px 12px 32px;
+  }
+
+  .cute-card {
+    padding: 24px 18px;
+    border-radius: 22px;
+  }
+
+  .gift-for-title {
+    font-size: 1.45rem;
+  }
+
+  .card-main-heading {
+    font-size: 1.5rem;
+  }
+
+  .card-receiver-name {
+    font-size: 1.3rem;
+  }
+
+  .card-wish-text {
+    font-size: 0.96rem;
+    line-height: 1.55;
+  }
+
+  .gift-box-3d {
+    width: 160px;
+    height: 145px;
+  }
+
+  .box-body {
+    width: 140px;
+    height: 100px;
+    left: 10px;
+  }
+
+  .box-lid {
+    width: 160px;
+  }
+
+  .flank-flower {
+    width: 40px;
+    height: 50px;
+  }
+
+  .gift-flanking-decor {
+    gap: 20px;
+  }
+}
