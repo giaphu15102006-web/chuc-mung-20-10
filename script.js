@@ -415,7 +415,7 @@
      ========================================================================== */
   function loadCardFromUrl() {
     const params = new URLSearchParams(window.location.search);
-    const recipient = params.get('name') || params.get('to') || 'Bạn Yêu';
+    const recipient = params.get('to') || params.get('name') || 'Bạn Yêu';
     const wish = params.get('wish') || params.get('msg') || getRandomWish();
     const sender = params.get('from') || params.get('sender') || '';
 
